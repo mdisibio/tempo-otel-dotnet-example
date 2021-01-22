@@ -1,0 +1,21 @@
+version: "3"
+services:
+
+  app:
+    image: mcr.microsoft.com/dotnet/sdk:5.0
+    command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5000"
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - "5000:5000"
+    logging:
+          driver: loki
+          options:
+            loki-url: https://<username>:<apikey>@logs-prod-us-central1.grafana.net/api/prom/push
+
+  grafana-agent:
+    image: grafana/agent:latest
+    command: "-config.file=/etc/agent-config.yaml"
+    volumes:
+      - ./agent-config.yaml:/etc/agent-config.yaml
