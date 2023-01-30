@@ -37,7 +37,7 @@ namespace app
                     //.AddConsoleExporter()
                     .AddOtlpExporter(opt =>
                     {                       
-                        opt.Endpoint = "grafana-agent:55680";
+                        opt.Endpoint = "agent:4317";
                     }));
 
             services.AddControllers();
