@@ -13,8 +13,4 @@
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.3.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="OpenTelemetry.Exporter.Console" />
-    <None Remove="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
-  </ItemGroup>
 </Project>
