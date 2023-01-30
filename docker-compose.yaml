@@ -1,21 +1,18 @@
 version: "3"
 services:
 
-  app:
+  dotnet5:
     image: mcr.microsoft.com/dotnet/sdk:5.0
     command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5000"
     working_dir: /app
     volumes:
-      - ./app:/app
+      - ./net5:/app
     ports:
       - "5000:5000"
-    logging:
-          driver: loki
-          options:
-            loki-url: https://<username>:<apikey>@logs-prod-us-central1.grafana.net/api/prom/push
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://agent:4317
 
-  grafana-agent:
-    image: grafana/agent:latest
-    command: "-config.file=/etc/agent-config.yaml"
+  agent:
+    image: grafana/agent:v0.30.2
     volumes:
-      - ./agent-config.yaml:/etc/agent-config.yaml
+      - ./agent.yaml:/etc/agent/agent.yaml
