@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,18 +22,15 @@ namespace app
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOpenTelemetryTracing(
+            services.AddOpenTelemetry().WithTracing(
                 (builder) => builder
-                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("example-app"))
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("dotnet5-app"))
                     .AddAspNetCoreInstrumentation()
                     //.AddConsoleExporter()
-                    .AddOtlpExporter(opt =>
-                    {                       
-                        opt.Endpoint = "agent:4317";
-                    }));
+                    .AddOtlpExporter(opt =>{}))
+                .StartWithHost();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -47,7 +39,6 @@ namespace app
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -57,12 +48,7 @@ namespace app
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "app v1"));
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

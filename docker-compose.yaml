@@ -1,7 +1,7 @@
 version: "3"
 services:
 
-  app:
+  dotnet5:
     image: mcr.microsoft.com/dotnet/sdk:5.0
     command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5000"
     working_dir: /app
@@ -9,6 +9,8 @@ services:
       - ./net5:/app
     ports:
       - "5000:5000"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://agent:4317
 
   agent:
     image: grafana/agent:v0.30.2
