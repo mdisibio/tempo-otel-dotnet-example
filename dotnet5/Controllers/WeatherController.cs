@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using OpenTelemetry.Trace;
 
 namespace app.Controllers
 {
@@ -22,7 +22,7 @@ namespace app.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            Console.WriteLine($"Getting weather forecast traceID={Tracer.CurrentSpan.Context.TraceId.ToHexString()}");
+            Console.WriteLine($"Getting weather forecast traceID={Activity.Current?.TraceId}");
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
