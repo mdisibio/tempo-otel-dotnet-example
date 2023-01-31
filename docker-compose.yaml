@@ -14,12 +14,12 @@ services:
 
   dotnet6:
     image: mcr.microsoft.com/dotnet/sdk:6.0
-    command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5001"
+    command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5000"
     working_dir: /app
     volumes:
       - ./dotnet6:/app
     ports:
-      - "5001:5001"
+      - "5000:5000"
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://agent:4317
 
