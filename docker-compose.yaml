@@ -6,7 +6,7 @@ services:
     command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5000"
     working_dir: /app
     volumes:
-      - ./net5:/app
+      - ./dotnet5:/app
     ports:
       - "5000:5000"
     environment:
@@ -17,7 +17,7 @@ services:
     command: bash -c "dotnet restore && dotnet build && dotnet run  --urls http://+:5001"
     working_dir: /app
     volumes:
-      - ./net6:/app
+      - ./dotnet6:/app
     ports:
       - "5001:5001"
     environment:
